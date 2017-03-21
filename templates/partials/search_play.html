@@ -1,0 +1,34 @@
+<table class="table search_table">
+
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Name</th>
+      <th>Owner</th>
+      <th>Number of tracks</th>
+    </tr>
+  </thead>
+
+  {% for play in results %}
+  <tr>
+    <td>
+      {% if play.images %}
+        <img src="{{play.images[0].url}}" alt="{{play.name}}" class="img-search">
+      {% else %}
+        <img src="http://bit.ly/2nXRRfX" class="img-search">
+      {% endif %}
+    </td>
+
+    <td>
+      <a href="{{ url_for('artist', id=play.id) }}"> {{ play.name }} </a>
+    </td>
+
+    <td>
+      <a href="{{ url_for('artist', id=play.owner.id) }}"> {{ play.owner.id }}</a>
+    </td>
+
+    <td class="number">{{ play.tracks.total }}</td>
+  </tr>
+  {% endfor %}
+
+</table>

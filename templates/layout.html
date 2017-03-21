@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+
+  <head>
+
+    <title>Spotify Flask</title>
+
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/sticky_footer.css')}}">
+
+    <!-- Google fonts and icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  </head>
+
+  <body>
+
+    <div id="header">
+
+      <!-- Static navbar -->
+      <nav class="navbar navbar-default">
+
+        <div class="container-fluid">
+
+          <a href='#'>
+            <div class="navbar-header">
+              <p class="navbar-brand" id="title" href="#">Spotify Flask</p>
+              <img src="{{url_for('static', filename='imgs/spotify.png')}}" id="icon">
+            </div>
+          </a>
+          <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+
+              <li>
+                  <div class='icon-container container'>
+                    <a href="#">
+                      <div class='row'>
+                        <i class="material-icons">account_circle</i>
+                      </div>
+                      <div class='row'>
+                        <span id='hidden'>Profile</span>
+                      </div>
+                      </a>
+                  </div>
+              </li>
+
+              <li>
+                  <div class='icon-container container'>
+                    <a href="#">
+                      <div class='row'>
+                        <i class="material-icons">whatshot</i>
+                      </div>
+                      <div class='row'>
+                        <span id='hidden'>Top</span>
+                      </div>
+                      </a>
+                  </div>
+              </li>
+
+              <li>
+                  <div class='icon-container container'>
+                    <a href="#">
+                      <div class='row'>
+                        <i class="material-icons">search</i>
+                      </div>
+                      <div class='row'>
+                        <span id='hidden'>Search</span>
+                      </div>
+                      </a>
+                  </div>
+              </li>
+
+              <li>
+                  <div class='icon-container container'>
+                    <a href="#">
+                      <div class='row'>
+                        <i class="material-icons">mail_outline</i>
+                      </div>
+                      <div class='row'>
+                        <span id='hidden'>Contact</span>
+                      </div>
+                    </a>
+                  </div>
+              </li>
+
+
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li class="dropdown-header">Nav header</li>
+                  <li><a href="#">Separated link</a></li>
+                  <li><a href="#">One more separated link</a></li>
+                </ul>
+              </li>
+            </ul>
+
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+
+    </div>
+
+    <div id="content">
+      {% block content %}{% endblock %}
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">
+          &copy; Copyright 2017 by <a href="https://github.com/mari-linhares"> Marianne Linhares</a>.
+          Special thanks to <a href="https://github.com/datademofun/spotify-flask">datademofun</a> and
+          <a href="https://github.com/drshrey/spotify-flask-auth-example">drshrey</a>
+        </span>
+      </div>
+    </footer>
+
+  </body>
+
+</html>

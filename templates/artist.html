@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="container">
+
+  <div class="row artist-title">
+
+    <div class="col-sm-6">
+      <h1 class="page-title">{{artist.name}}</h1>
+      <a href="{{artist.external_urls.spotify}}"> {{artist.name}} on Spotify </a>
+    </div>
+
+    <div class="col-sm-6">
+      <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#related-modal">
+        See related artists
+      </button>
+    </div>
+
+  </div>
+
+  <div class="row">
+
+        <div class="col-sm-4">
+
+          <section class="sec">
+              <img src="{{image_url}}" alt="{{image_url}}" class="img-fluid img-square">
+          </section>
+
+        </div>
+
+        <div class="col-sm-8">
+            {% if tracks %}
+                <section class="sec tracks">
+                  <h3>Top Tracks</h3>
+                  {% include 'partials/track_list.html' %}
+                </section>
+            {% endif %}
+          </div>
+      </div>
+
+</div>
+
+<!-- Modal related artists --->
+
+<div class="modal fade" id="related-modal" tabindex="-1" role="dialog" aria-labelledby="related-modalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="related-modalLabel">{{ artist.name }} related artists</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            {% for art in related_artists %}
+                {% if art.images %}
+                  <div class="col-xs-6">
+                    <a href="{{url_for('artist',id=art.id) }}">
+                      <img src="{{art.images[0].url}}" alt="" class="img-thumbnail img-related">
+                      <span>{{ art.name }}</span>
+                    </a>
+
+                  </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

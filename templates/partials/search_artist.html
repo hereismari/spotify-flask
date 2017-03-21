@@ -1,0 +1,33 @@
+
+      <table class="table search_table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Genre</th>
+              <th>Followers</th>
+              <th>Popularity</th>
+            </tr>
+          </thead>
+
+          {% for artist in results %}
+            <tr>
+              <td>
+                {% if artist.images %}
+                  <img src="{{artist.images[-1].url}}" alt="{{artist.name}}" class="img-search">
+                {% else %}
+                  <img src="http://bit.ly/2nXRRfX" class="img-search">
+                {% endif %}
+              </td>
+
+              <td>
+                <a href="{{ url_for('artist', id=artist.id) }}"> {{ artist.name }} </a>
+              </td>
+
+              <td> {{ artist.genres | join(', ')}} </td>
+
+              <td class="number">{{ artist.followers.total }}</td>
+              <td class="number">{{ artist.popularity }}</td>
+            </tr>
+          {% endfor %}
+      </table>

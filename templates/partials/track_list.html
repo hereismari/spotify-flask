@@ -1,0 +1,26 @@
+<table class="table table-condensed tracks">
+  <thead>
+    <tr>
+      <th>Track</th>
+      <th>Album</th>
+      <th>Popularity</th>
+    </tr>
+  </thead>
+    {% for t in tracks %}
+        <tr class="track">
+
+          <td>
+            <span class="track-name">{{ t.name }}</span>
+          </td>
+
+          <td>
+            <span class="album-name">
+              <a href="{{t.album.external_urls.spotify}}"> {{ t.album.name }} </a>
+            </span>
+          </td>
+
+          <td class="number">{{ t.popularity }}</td>
+        </tr>
+    {% endfor %}
+
+</table>
