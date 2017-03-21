@@ -27,7 +27,7 @@
 
         <div class="container-fluid">
 
-          <a href='#'>
+          <a href='{{ url_for("index") }}'>
             <div class="navbar-header">
               <p class="navbar-brand" id="title" href="#">Spotify Flask</p>
               <img src="{{url_for('static', filename='imgs/spotify.png')}}" id="icon">
@@ -78,7 +78,7 @@
 
               <li>
                   <div class='icon-container container'>
-                    <a href="{{ url_for('search') }}">
+                    <a href="{{ url_for('contact') }}">
                       <div class='row'>
                         <i class="material-icons">mail_outline</i>
                       </div>

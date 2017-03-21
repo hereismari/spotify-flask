@@ -2,7 +2,7 @@
 
 {% block content %}
 
-{% if not user%}
+{% if not user %}
 
   <div class="container">
     <div class="mt-1">
@@ -16,10 +16,17 @@
 
 {% else %}
 
-	{% for info in user%}
-		<p> {{ item }} </p>
-	{% endfor %}
+	<div class="container">
 
+	  <h1> oi </h1>
+	  <div class="row">
+
+	    <div class="col-sm-6">
+	      <h1 class="page-title">{{user.display_name}}</h1>
+
+			</div>
+		</div>
+	</div>
 {% endif %}
 
 {% endblock %}
