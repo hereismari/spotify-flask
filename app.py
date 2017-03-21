@@ -7,7 +7,7 @@
 '''
 
 import base64
-from flask import Flask, request, redirect, g, render_template
+from flask import Flask, request, redirect, render_template
 import json
 import requests
 import urllib
@@ -96,7 +96,7 @@ def callback():
 
     # combine profile and playlist data to display
     display_arr = [profile_data] + playlist_data["items"]
-    return render_template("profile.html", sorted_array=display_arr)
+    return render_template("profile.html", user=display_arr)
 
 # -------------------------- API REQUESTS ----------------------------
 
@@ -155,6 +155,9 @@ def artist(id):
                             image_url=image_url,
                             tracks=tracks)
 
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
 
 if __name__ == "__main__":
     app.run(debug=True,port=PORT)

@@ -7,34 +7,37 @@
   font-style:normal;
   font-size: 30px;
   color: #6AE368;
+  margin-top: 10%;
 }
 
 #icon {
    height: 40px;
    width: 40px;
-   margin-top: 2%;
+   margin-top: 12%;
    position: center;
 }
 
 .icon-container {
-  margin-top: 10%;
-  margin-right: 45%;
   text-align: center;
   vertical-align: middle;
   font-size: 10px;
-  min-height: 65px;
+  min-height: 80px;
+  margin-top: 30%;
 }
 
 .icon-container i {
   font-size: 35px;
   transition: all .5s ease-in-out;
 }
+
+
 .icon-container a:hover i {
   transform: scale(0.8);
 }
 
 .icon-container a {
   color: #777;
+  margin-right: 40px;
 }
 
 .icon-container a:hover {
