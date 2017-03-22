@@ -9,7 +9,7 @@ grateful for these repositories :smile:!
 ## How can I run it?
 
     1. Follow [this tutorial](https://developer.spotify.com/web-api/tutorial/) to create your own Spotify App.
-       Add "http://127.0.0.1:8080/callback/" as a redirect URI
+       Add "http://127.0.0.1:8081/callback/" as a redirect URI
 
     2. Create a conf.json file with the exact same sctructure of the conf_example.json file
 
