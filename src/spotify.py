@@ -1,3 +1,5 @@
+oauth = False
+
 import base64
 import json
 import requests
@@ -22,44 +24,49 @@ SPOTIFY_API_URL = "{}/{}".format(SPOTIFY_API_BASE_URL, API_VERSION)
 
 # ----------------- 1. USER AUTHORIZATION ---------------- #
 
-# spotify endpoints
-SPOTIFY_AUTH_BASE_URL = "https://accounts.spotify.com/{}"
-SPOTIFY_AUTH_URL = SPOTIFY_AUTH_BASE_URL.format('authorize')
-SPOTIFY_TOKEN_URL = SPOTIFY_AUTH_BASE_URL.format('api/token')
+if oauth:
 
-# client keys
-CLIENT = json.load(open('conf.json', 'r+'))
-CLIENT_ID = CLIENT['id']
-CLIENT_SECRET = CLIENT['secret']
+    # spotify endpoints
+    SPOTIFY_AUTH_BASE_URL = "https://accounts.spotify.com/{}"
+    SPOTIFY_AUTH_URL = SPOTIFY_AUTH_BASE_URL.format('authorize')
+    SPOTIFY_TOKEN_URL = SPOTIFY_AUTH_BASE_URL.format('api/token')
 
-# server side parameter
-# * fell free to change it if you want to, but make sure to change in
-# your spotify dev account as well *
-CLIENT_SIDE_URL = "http://127.0.0.1"
-PORT = 8081
-REDIRECT_URI = "{}:{}/callback/".format(CLIENT_SIDE_URL, PORT)
-SCOPE = "playlist-modify-public playlist-modify-private"
-STATE = ""
-SHOW_DIALOG_bool = True
-SHOW_DIALOG_str = str(SHOW_DIALOG_bool).lower()
+    # client keys
+    CLIENT = json.load(open('conf.json', 'r+'))
+    CLIENT_ID = CLIENT['id']
+    CLIENT_SECRET = CLIENT['secret']
 
-# https://developer.spotify.com/web-api/authorization-guide/
-auth_query_parameters = {
-    "response_type": "code",
-    "redirect_uri": REDIRECT_URI,
-    "scope": SCOPE,
-    # "state": STATE,
-    # "show_dialog": SHOW_DIALOG_str,
-    "client_id": CLIENT_ID
-}
+    # server side parameter
+    # * fell free to change it if you want to, but make sure to change in
+    # your spotify dev account as well *
+    CLIENT_SIDE_URL = "http://127.0.0.1"
+    PORT = 8081
+    REDIRECT_URI = "{}:{}/callback/".format(CLIENT_SIDE_URL, PORT)
+    SCOPE = "playlist-modify-public playlist-modify-private"
+    STATE = ""
+    SHOW_DIALOG_bool = True
+    SHOW_DIALOG_str = str(SHOW_DIALOG_bool).lower()
 
-URL_ARGS = "&".join(["{}={}".format(key, urllib.quote(val))
-                    for key, val in auth_query_parameters.iteritems()])
-AUTH_URL = "{}/?{}".format(SPOTIFY_AUTH_URL, URL_ARGS)
+    # https://developer.spotify.com/web-api/authorization-guide/
+    auth_query_parameters = {
+        "response_type": "code",
+        "redirect_uri": REDIRECT_URI,
+        "scope": SCOPE,
+        # "state": STATE,
+        # "show_dialog": SHOW_DIALOG_str,
+        "client_id": CLIENT_ID
+    }
+
+    URL_ARGS = "&".join(["{}={}".format(key, urllib.quote(val))
+                        for key, val in auth_query_parameters.iteritems()])
+    AUTH_URL = "{}/?{}".format(SPOTIFY_AUTH_URL, URL_ARGS)
 
 '''
     This function must be used with the callback method present in the
     ../app.py file.
+    
+    And of course this will only works if ouath == True
+    
 '''
 
 
