@@ -18,15 +18,55 @@
 
 	<div class="container">
 
-	  <h1> oi </h1>
+
+	  <h1> Hi {{ user.display_name }} :) </h1>
+
+    <hr class="half-rule"/>
+
 	  <div class="row">
+      <div class="col-sm-4">
 
-	    <div class="col-sm-6">
-	      <h1 class="page-title">{{user.display_name}}</h1>
+        <section class="sec">
 
-			</div>
-		</div>
+          {% if user.images %}
+            <img src="{{user.images[0].url}}" class="img-square">
+          {% else %}
+            <img src="http://bit.ly/2nXRRfX" class="img-square">
+          {% endif %}
+
+          <h3>You have {{ user.followers.total }} followers!</h3>
+        </section>
+      </div>
+
+      <div class="col-sm-8">
+
+        <h3> Your playlists: </h3>
+        <hr class="half-rule"/>
+
+        {% for play in playlists %}
+          <div class='row'>
+            <a href="{{ play.external_urls.spotify }}">
+
+              <div class='col-sm-8'>
+                <span>{{ play.name }} </span>
+              </div>
+
+              <div class='col-sm-4'>
+                {% if play.images %}
+                  <img src="{{play.images[0].url}}" alt="{{play.name}}" class="img-playlist">
+                {% else %}
+                  <img src="http://bit.ly/2nXRRfX" class="img-search">
+                {% endif %}
+              </div>
+
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+
+    </div>
 	</div>
+
 {% endif %}
 
 {% endblock %}

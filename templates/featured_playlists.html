@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="container">
+
+  <div class="mt-1">
+    <h1>Featured Playlists</h1>
+  </div>
+
+  <p class="lead">
+    Get a list of Spotify featured playlists (shown, for example,
+    on a Spotify player’s “Browse” tab).
+  </p>
+
+  <hr class="half-rule"/>
+
+  <div class='containter'>
+
+    <h3>{{ hot.message }}</h3>
+    {% for play in hot['playlists']['items'] %}
+      <div class='row'>
+        <a href="{{ play.external_urls.spotify }}">
+
+          <div class='col-sm-8'>
+            <span>{{ play.name }} </span>
+          </div>
+
+          <div class='col-sm-4'>
+            {% if play.images %}
+              <img src="{{play.images[0].url}}" alt="{{play.name}}" class="img-playlist">
+            {% else %}
+              <img src="http://bit.ly/2nXRRfX" class="img-search">
+            {% endif %}
+          </div>
+
+        </a>
+      </div>
+    {% endfor %}
+
+  </div>
+
+
+</div>
+
+{% endblock %}

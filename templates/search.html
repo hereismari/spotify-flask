@@ -5,12 +5,17 @@
 <section>
   <div class="container">
 
-    {% if search_item == "" %}
+    {% if not name or not search_type %}
 
       <div class="container">
 
         <div class='row'>
-          <h1>Search!</h1>
+          <h1>Search</h1>
+          <p>
+            Get Spotify catalog information about artists, albums,
+            tracks or playlists that match a keyword string.
+          </p>
+          <hr class="half-rule"/>
         </div>
 
         <div class='row'>
@@ -18,18 +23,20 @@
             <div class="row">
 
                   <div class='col-sm-6'>
+                    <label>Make a search:</label>
                     <div class="col-lg-10" style='padding-left: 0px;'>
                       <div class="input-group">
                         <span class="input-group-btn">
-                          <input type="text" class="form-control" name='name' placeholder="Search for...">
+                          <input type="text" class="form-control" name='name' placeholder="Search for... Love?">
                           <button class="btn btn-default" type="submit">Go!</button>
                         </span>
                       </div><!-- /input-group -->
                     </div><!-- /.col-lg-6 -->
                   </div>
 
-                  <div class='col-sm-6'>
-                    <select name='search_type'>
+                  <div class='col-sm-4'>
+                    <label>Choose search type:</label>
+                    <select class='form-group' name='search_type'>
                       <option value='artist'>Artist</option>
                       <option value='album'>Album</option>
                       <option value='playlist'>Playlist</option>
@@ -45,22 +52,24 @@
 
     {% else %}
 
-        <h3>Searching for {{ search_item }} with the name of:
+        <h3>Searching for {{ search_type }} with the name of:
           <em>{{ name }}</em>
         </h3>
 
+        <hr class="half-rule"/> 
+
         <div class="container">
 
-          {% if search_item == "artist" %}
+          {% if search_type == "artist" %}
             {% include 'partials/search_artist.html' %}
 
-          {% elif search_item == "album" %}
+          {% elif search_type == "album" %}
             {% include 'partials/search_album.html' %}
 
-          {% elif search_item == "playlist" %}
+          {% elif search_type == "playlist" %}
             {% include 'partials/search_play.html' %}
 
-          {% elif search_item == "track" %}
+          {% elif search_type == "track" %}
             {% include 'partials/search_track.html' %}
 
           {% endif %}

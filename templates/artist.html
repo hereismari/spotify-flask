@@ -8,36 +8,37 @@
 
     <div class="col-sm-6">
       <h1 class="page-title">{{artist.name}}</h1>
+      <hr class="half-rule"/>
       <a href="{{artist.external_urls.spotify}}"> {{artist.name}} on Spotify </a>
-    </div>
 
-    <div class="col-sm-6">
-      <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#related-modal">
-        See related artists
-      </button>
     </div>
 
   </div>
 
   <div class="row">
 
-        <div class="col-sm-4">
+    <div class="col-sm-4">
 
-          <section class="sec">
-              <img src="{{image_url}}" alt="{{image_url}}" class="img-fluid img-square">
+      <section class="sec">
+        <img src="{{image_url}}" alt="{{image_url}}" class="img-fluid img-square">
+      </section>
+
+      <button type="button" class="btn btn-default btn-md" data-toggle="modal" id="btn-related" data-target="#related-modal">
+        See related artists
+      </button>
+
+    </div>
+
+    <div class="col-sm-8">
+      {% if tracks %}
+          <section class="sec tracks">
+            <h3>Top Tracks</h3>
+            <hr class="half-rule"/>
+            {% include 'partials/track_list.html' %}
           </section>
-
-        </div>
-
-        <div class="col-sm-8">
-            {% if tracks %}
-                <section class="sec tracks">
-                  <h3>Top Tracks</h3>
-                  {% include 'partials/track_list.html' %}
-                </section>
-            {% endif %}
-          </div>
-      </div>
+      {% endif %}
+    </div>
+  </div>
 
 </div>
 

@@ -20,11 +20,11 @@
     </td>
 
     <td>
-      <a href="{{ url_for('artist', id=play.id) }}"> {{ play.name }} </a>
+      <a href="{{ play.external_urls.spotify }}"> {{ play.name }} </a>
     </td>
 
     <td>
-      <a href="{{ url_for('artist', id=play.owner.id) }}"> {{ play.owner.id }}</a>
+      <a href="{{ play.owner.external_urls.spotify }}"> {{ play.owner.id }}</a>
     </td>
 
     <td class="number">{{ play.tracks.total }}</td>

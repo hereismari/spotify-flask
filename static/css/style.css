@@ -63,6 +63,11 @@
   height: 100px;
 }
 
+.img-playlist {
+  width: 40px;
+  height: 40px;
+}
+
 .img-related {
   border-radius: 50%;
   width: 100px;
@@ -80,4 +85,14 @@
 
 #little_search {
   font-size: 15px;
+}
+
+.half-rule {
+    margin-left: 0;
+    text-align: left;
+    width: 80%;
+ }
+
+#btn-related {
+  margin-top: 10%;
 }

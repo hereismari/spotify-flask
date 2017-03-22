@@ -14,7 +14,7 @@
         <tr>
 
           <td>
-            <a href="{{ url_for('artist', id=track.id) }}"> {{ track.name }} </a>
+            <a href="{{ track.external_urls.spotify }}"> {{ track.name }} </a>
           </td>
 
           <td>
@@ -24,7 +24,7 @@
           </td>
 
           <td class="number">
-            <a href="{{ url_for('artist', id=track.album.id) }}"> {{ track.album.name }} </a>
+            <a href="{{ track.external_urls.spotify }}"> {{ track.album.name }} </a>
           </td>
 
           <td class="number">{{ track.popularity }}</td>

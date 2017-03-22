@@ -6,44 +6,30 @@
 
 '''
 
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, g, render_template, session
 from src import spotify
 
 app = Flask(__name__)
+app.secret_key = 'some key for session'
 
 # ----------------------- AUTH API PROCEDURE -------------------------
 
-
 @app.route("/auth")
 def auth():
-    print spotify.AUTH_URL
     return redirect(spotify.AUTH_URL)
 
 
 @app.route("/callback/")
 def callback():
+
     auth_token = request.args['code']
-    print auth_token
     auth_header = spotify.authorize(auth_token)
+    session['auth_header'] = auth_header
 
-    # get profile data
-    profile_data = spotify.get_users_profile(auth_header)
+    return profile()
 
-    # get user playlist data
-    # playlist_data = spotify.get_users_playlists(auth_header)
-
-    # get user top artists
-    # top_artists = spotify.get_users_top(auth_header, 'artists')
-
-    # get user recently played
-    # recently_played = spotify.get_users_recently_played(auth_header)
-
-    print profile_data
-    return render_template("profile.html",
-                           user=profile_data)
-                    #       playlists=playlist_data["items"],
-                    #       top_artists=top_artists,
-                    #       recently_played=recently_played)
+def valid_token(resp):
+    return resp is None or not 'error' in resp
 
 # -------------------------- API REQUESTS ----------------------------
 
@@ -55,13 +41,12 @@ def index():
 
 @app.route('/search/')
 def search():
-
     try:
         search_type = request.args['search_type']
         name = request.args['name']
         return make_search(search_type, name)
     except:
-        return render_template('search.html', search_item='')
+        return render_template('search.html')
 
 
 @app.route('/search/<search_type>/<name>')
@@ -81,7 +66,7 @@ def make_search(search_type, name):
                            name=name,
                            results=items,
                            api_url=api_url,
-                           search_item=search_type)
+                           search_type=search_type)
 
 
 @app.route('/artist/<id>')
@@ -91,7 +76,7 @@ def artist(id):
     if artist['images']:
         image_url = artist['images'][0]['url']
     else:
-        image_url = 'http://placecage.com/600/400'
+        image_url = 'http://bit.ly/2nXRRfX'
 
     tracksdata = spotify.get_artist_top_tracks(id)
     tracks = tracksdata['tracks']
@@ -108,13 +93,39 @@ def artist(id):
 
 @app.route('/profile')
 def profile():
-    return render_template('profile.html')
+    if 'auth_header' in session:
+        auth_header = session['auth_header']
+        # get profile data
+        profile_data = spotify.get_users_profile(auth_header)
+
+        # get user playlist data
+        playlist_data = spotify.get_users_playlists(auth_header)
+
+        # get user top artists
+        top_artists = spotify.get_users_top(auth_header, 'artists')
+
+        if valid_token(top_artists):
+            return render_template("profile.html",
+                               user=profile_data,
+                               playlists=playlist_data["items"],
+                               top_artists=top_artists)
+    else:
+        return render_template('profile.html')
 
 
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
 
+@app.route('/featured_playlists')
+def featured_playlists():
+    if 'auth_header' in session:
+        auth_header = session['auth_header']
+        hot = spotify.get_featured_playlists(auth_header)
+        if valid_token(hot):
+            return render_template('featured_playlists.html', hot=hot)
+
+    return render_template('profile.html')
 
 if __name__ == "__main__":
     app.run(debug=True, port=spotify.PORT)

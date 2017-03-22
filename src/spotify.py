@@ -91,9 +91,6 @@ def authorize(auth_token):
 
 # spotify endpoints
 GET_ARTIST_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'artists')  # /<id>
-RELATED_ARTISTS_ENDPOINT = "{}/{}".format(GET_ARTIST_ENDPOINT,
-                                          'related-artists')
-ARTISTS_TOP_TRACKS_ENDPOINT = "{}/{}".format(GET_ARTIST_ENDPOINT, 'top-tracks')
 
 
 # https://developer.spotify.com/web-api/get-artist/
@@ -105,14 +102,16 @@ def get_artist(artist_id):
 
 # https://developer.spotify.com/web-api/get-related-artists/
 def get_related_artists(artist_id):
-    url = RELATED_ARTISTS_ENDPOINT.format(id=artist_id)
+    url = "{}/{id}/{type}".format(GET_ARTIST_ENDPOINT, id=artist_id,
+                                  type='related-artists')
     resp = requests.get(url)
     return resp.json()
 
 
 # https://developer.spotify.com/web-api/get-artists-top-tracks/
 def get_artist_top_tracks(artist_id, country='US'):
-    url = ARTISTS_TOP_TRACKS_ENDPOINT.format(id=artist_id)
+    url = "{}/{id}/{type}".format(GET_ARTIST_ENDPOINT, id=artist_id,
+                                  type='top-tracks')
     myparams = {'country': country}
     resp = requests.get(url, params=myparams)
     return resp.json()
@@ -126,7 +125,7 @@ SEARCH_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'search')
 
 # https://developer.spotify.com/web-api/search-item/
 def search(search_type, name):
-    if type not in ['artists', 'tracks', 'albums', 'playlists']:
+    if search_type not in ['artist', 'track', 'album', 'playlist']:
         print 'invalid type'
         return None
     myparams = {'type': search_type}
@@ -144,6 +143,8 @@ USER_TOP_ARTISTS_AND_TRACKS_ENDPOINT = "{}/{}".format(
     USER_PROFILE_ENDPOINT, 'top')  # /<type>
 USER_RECENTLY_PLAYED_ENDPOINT = "{}/{}/{}".format(USER_PROFILE_ENDPOINT,
                                                   'player', 'recently-played')
+BROWSE_FEATURED_PLAYLISTS = "{}/{}/{}".format(SPOTIFY_API_URL, 'browse',
+                                              'featured-playlists')
 
 
 # https://developer.spotify.com/web-api/get-users-profile/
@@ -166,13 +167,17 @@ def get_users_top(auth_header, type):
         print 'invalid type'
         return None
     url = "{}/{type}".format(USER_TOP_ARTISTS_AND_TRACKS_ENDPOINT, type=type)
-    print url
     resp = requests.get(url, headers=auth_header)
-    return resp.json()
-
+    print resp
 
 # https://developer.spotify.com/web-api/web-api-personalization-endpoints/get-recently-played/
 def get_users_recently_played(auth_header):
     url = USER_RECENTLY_PLAYED_ENDPOINT
+    resp = requests.get(url, headers=auth_header)
+    return resp.json()
+
+# https://developer.spotify.com/web-api/get-list-featured-playlists/
+def get_featured_playlists(auth_header):
+    url = BROWSE_FEATURED_PLAYLISTS
     resp = requests.get(url, headers=auth_header)
     return resp.json()

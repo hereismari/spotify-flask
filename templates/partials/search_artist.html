@@ -14,7 +14,7 @@
             <tr>
               <td>
                 {% if artist.images %}
-                  <img src="{{artist.images[-1].url}}" alt="{{artist.name}}" class="img-search">
+                  <img src="{{artist.images[0].url}}" alt="{{artist.name}}" class="img-search">
                 {% else %}
                   <img src="http://bit.ly/2nXRRfX" class="img-search">
                 {% endif %}
