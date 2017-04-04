@@ -1,4 +1,4 @@
-# spotify-flask
+# spotify-flask [WIP]
 
 Here you'll find a very straightforward way to request data from Spotify API using flask with templates. Or just use the [Python
 API](http://github.com/mari-linhares/spotify-flask/api/) to make the requests for your application.
