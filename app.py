@@ -7,7 +7,7 @@
 '''
 
 from flask import Flask, request, redirect, g, render_template, session
-from src import spotify
+from spotify_requests import spotify
 
 app = Flask(__name__)
 app.secret_key = 'some key for session'
@@ -29,7 +29,7 @@ def callback():
     return profile()
 
 def valid_token(resp):
-    return resp is None or not 'error' in resp
+    return resp is not None and not 'error' in resp
 
 # -------------------------- API REQUESTS ----------------------------
 
@@ -101,16 +101,16 @@ def profile():
         # get user playlist data
         playlist_data = spotify.get_users_playlists(auth_header)
 
-        # get user top artists
-        top_artists = spotify.get_users_top(auth_header, 'artists')
-
-        if valid_token(top_artists):
+        # get user recently played tracks
+        recently_played = spotify.get_users_recently_played(auth_header)
+        
+        if valid_token(recently_played):
             return render_template("profile.html",
                                user=profile_data,
                                playlists=playlist_data["items"],
-                               top_artists=top_artists)
-    else:
-        return render_template('profile.html')
+                               recently_played=recently_played["items"])
+
+    return render_template('profile.html')
 
 
 @app.route('/contact')
