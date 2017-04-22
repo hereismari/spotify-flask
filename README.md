@@ -7,6 +7,8 @@ I'm creating this repository because I have not found a full (or almost full) im
 https://github.com/datademofun/spotify-flask and https://github.com/drshrey/spotify-flask-auth-example have some nice work, and I'm
 grateful for these repositories :smile:!
 
+![Image](https://github.com/mari-linhares/spotify-flask/blob/master/imgs/profile.png?raw=true)
+
 ## How can I run it?
 
 1. Follow [this tutorial](https://developer.spotify.com/web-api/tutorial/) to create your own Spotify App.
