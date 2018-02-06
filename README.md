@@ -3,7 +3,7 @@
 Here you'll find a very straightforward way to request data from Spotify API using flask with templates. Or just use the [Python
 API](http://github.com/mari-linhares/spotify-flask/api/) to make the requests for your application.
 
-I'm creating this repository because I have not found a full (or almost full) implementation of a Flask app using Spotify API, altough
+I'm creating this repository because I have not found a full implementation of a Flask app using Spotify API, altough
 https://github.com/datademofun/spotify-flask and https://github.com/drshrey/spotify-flask-auth-example have some nice work, and I'm
 grateful for these repositories :smile:!
 
@@ -16,7 +16,7 @@ grateful for these repositories :smile:!
 
 2. Create a file named **conf.json** in this folder with the exact same structure of the conf_example.json file  
 
-3. Run python app.py to see a application using the code present here :bowtie:
+3. Run python app.py to see an application using the code present here :bowtie:
 
 ## What facilities does this application offers?
 
