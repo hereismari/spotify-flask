@@ -18,7 +18,7 @@ grateful for these repositories :smile:!
 
 3. Run python app.py to see an application using the code present here :bowtie:
 
-## What facilities does this application offers?
+## What facilities this application offers?
 
  * Support to a complete example (that you can use as base for your own project) of an application using Flask to talk to Spotify API  
  * [Python API](https://github.com/mari-linhares/spotify-flask/tree/master/api) that makes very simple to use Spotify API in your Python code
