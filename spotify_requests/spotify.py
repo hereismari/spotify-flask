@@ -1,8 +1,15 @@
+from __future__ import print_function
 import base64
 import json
 import requests
-import urllib
+import sys
 
+# Workaround to support both python 2 & 3
+try:
+    import urllib.request, urllib.error
+    import urllib.parse as urllibparse
+except ImportError:
+    import urllib as urllibparse
 '''
     --------------------- HOW THIS FILE IS ORGANIZED --------------------
 
@@ -56,8 +63,15 @@ auth_query_parameters = {
     "client_id": CLIENT_ID
 }
 
-URL_ARGS = "&".join(["{}={}".format(key, urllib.quote(val))
+#python 3
+if sys.version_info[0] >= 3:
+    URL_ARGS = "&".join(["{}={}".format(key, urllibparse.quote(val))
+                    for key, val in list(auth_query_parameters.items())])
+else: 
+    URL_ARGS = "&".join(["{}={}".format(key, urllibparse.quote(val))
                     for key, val in auth_query_parameters.iteritems()])
+
+
 AUTH_URL = "{}/?{}".format(SPOTIFY_AUTH_URL, URL_ARGS)
 
 '''
@@ -76,10 +90,14 @@ def authorize(auth_token):
         "code": str(auth_token),
         "redirect_uri": REDIRECT_URI
     }
-
-    base64encoded = base64.b64encode("{}:{}".format(CLIENT_ID, CLIENT_SECRET))
-
-    headers = {"Authorization": "Basic {}".format(base64encoded)}
+    
+    #python 3 or above
+    if sys.version_info[0] >= 3:
+        base64encoded = base64.b64encode(("{}:{}".format(CLIENT_ID, CLIENT_SECRET)).encode())
+        headers = {"Authorization": "Basic {}".format(base64encoded.decode())}
+    else: 
+        base64encoded = base64.b64encode("{}:{}".format(CLIENT_ID, CLIENT_SECRET))
+        headers = {"Authorization": "Basic {}".format(base64encoded)}
 
     post_request = requests.post(SPOTIFY_TOKEN_URL, data=code_payload,
                                  headers=headers)
@@ -139,7 +157,7 @@ SEARCH_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'search')
 # https://developer.spotify.com/web-api/search-item/
 def search(search_type, name):
     if search_type not in ['artist', 'track', 'album', 'playlist']:
-        print 'invalid type'
+        print('invalid type')
         return None
     myparams = {'type': search_type}
     myparams['q'] = name
@@ -177,11 +195,11 @@ def get_users_playlists(auth_header):
 # https://developer.spotify.com/web-api/get-users-top-artists-and-tracks/
 def get_users_top(auth_header, t):
     if t not in ['artists', 'tracks']:
-        print 'invalid type'
+        print('invalid type')
         return None
     url = "{}/{type}".format(USER_TOP_ARTISTS_AND_TRACKS_ENDPOINT, type=t)
     resp = requests.get(url, headers=auth_header)
-    print resp
+    print(resp)
 
 # https://developer.spotify.com/web-api/web-api-personalization-endpoints/get-recently-played/
 def get_users_recently_played(auth_header):

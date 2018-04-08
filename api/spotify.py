@@ -1,7 +1,13 @@
+from __future__ import print_function
 import base64
 import json
 import requests
-import urllib
+# Workaround to support both python 2 & 3
+try:
+    import urllib.request, urllib.error
+    import urllib.parse as urllibparse
+except ImportError:
+    import urllib as urllibparse
 
 '''
     --------------------- HOW THIS FILE IS ORGANIZED --------------------
@@ -117,7 +123,7 @@ SEARCH_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'search')
 def search(search_types, name):
     for st in search_types:
         if st not in ['artist', 'track', 'album', 'playlist']:
-            print '%s invalid type' % st
+            print('%s invalid type' % st)
             return None
     myparams = {'type': search_types}
     myparams['q'] = name
