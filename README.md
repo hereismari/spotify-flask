@@ -7,7 +7,7 @@ https://github.com/datademofun/spotify-flask and https://github.com/drshrey/spot
 
 ![Image](https://github.com/mari-linhares/spotify-flask/blob/master/imgs/profile.png?raw=true)
 
-## How can I run it?
+## Run it
 
 1. Follow [this tutorial](https://developer.spotify.com/web-api/tutorial/) to create your own Spotify App. Then add "http://127.0.0.1:8081/callback/" as a redirect URI.  
 
