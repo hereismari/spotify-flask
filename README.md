@@ -3,7 +3,7 @@
 Spotify-Flask is a very straightforward way to request data from Spotify API using flask with templates. You can also just use the [Python API](http://github.com/mari-linhares/spotify-flask/api/) to make requests for your application.
 
 I've created this repository because I couldn't find a full implementation of a Flask app using Spotify API, altough
-https://github.com/datademofun/spotify-flask and https://github.com/drshrey/spotify-flask-auth-example have some nice work, and I'm grateful for these repositories :smile:!
+https://github.com/datademofun/spotify-flask and https://github.com/drshrey/spotify-flask-auth-example have some nice work!
 
 ![Image](https://github.com/mari-linhares/spotify-flask/blob/master/imgs/profile.png?raw=true)
 
