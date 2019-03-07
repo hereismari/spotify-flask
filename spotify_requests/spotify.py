@@ -47,7 +47,7 @@ CLIENT_SECRET = CLIENT['secret']
 # your spotify dev account as well *
 CLIENT_SIDE_URL = "http://127.0.0.1"
 PORT = 8081
-REDIRECT_URI = "{}:{}/callback/".format(CLIENT_SIDE_URL, PORT)
+REDIRECT_URI = "{}:{}/callback".format(CLIENT_SIDE_URL, PORT)
 SCOPE = "playlist-modify-public playlist-modify-private user-read-recently-played user-top-read"
 STATE = ""
 SHOW_DIALOG_bool = True
@@ -65,14 +65,14 @@ auth_query_parameters = {
 
 #python 3
 if sys.version_info[0] >= 3:
-    URL_ARGS = "&".join(["{}={}".format(key, urllibparse.quote(val))
+    URL_ARGS = "&".join(["{}={}".format(key, urllibparse.quote(val, safe=''))
                     for key, val in list(auth_query_parameters.items())])
 else: 
     URL_ARGS = "&".join(["{}={}".format(key, urllibparse.quote(val))
                     for key, val in auth_query_parameters.iteritems()])
 
 
-AUTH_URL = "{}/?{}".format(SPOTIFY_AUTH_URL, URL_ARGS)
+AUTH_URL = "{}?{}".format(SPOTIFY_AUTH_URL, URL_ARGS)
 
 '''
     This function must be used with the callback method present in the
