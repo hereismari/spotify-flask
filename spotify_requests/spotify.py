@@ -45,13 +45,15 @@ CLIENT_SECRET = CLIENT['secret']
 # server side parameter
 # * fell free to change it if you want to, but make sure to change in
 # your spotify dev account as well *
-CLIENT_SIDE_URL = "http://127.0.0.1"
+CLIENT_SIDE_URL = "http://localhost"
 PORT = 8081
 REDIRECT_URI = "{}:{}/callback/".format(CLIENT_SIDE_URL, PORT)
 SCOPE = "playlist-modify-public playlist-modify-private user-read-recently-played user-top-read"
 STATE = ""
 SHOW_DIALOG_bool = True
 SHOW_DIALOG_str = str(SHOW_DIALOG_bool).lower()
+
+AUTH_HEADER={'Authorization': 'Bearer BQBv_7gi79lUh40tO8EPWViiWLr8-5EdPZ9tINE7Vc7W_sgx__WqGgRXIQa2eVpFDQBQ3QE8KNUVxpGhkWhY9dwX4lB_mxvPfEeX_Sk4DS5Whe_omX6yRvUpQz10H3UtuNTCX3jZ0hdIOnDiJTnU_ESRKAXOdS1ujKhtypp0ZtIZK37y_KdEyoENaEGHn8kjFbQ34AK_jbJOaNwgHsRI9cxKxfwXy2AdSpyJRYcS6YA846SQB_jjPsbE'}
 
 # https://developer.spotify.com/web-api/authorization-guide/
 auth_query_parameters = {
@@ -84,7 +86,8 @@ AUTH_URL = "{}/?{}".format(SPOTIFY_AUTH_URL, URL_ARGS)
 
 
 def authorize(auth_token):
-
+    print("auth_tokenauth_tokenauth_tokenauth_tokenauth_tokenauth_tokenauth_tokenauth_tokenauth_token")
+    print(auth_token)
     code_payload = {
         "grant_type": "authorization_code",
         "code": str(auth_token),
@@ -104,10 +107,15 @@ def authorize(auth_token):
 
     # tokens are returned to the app
     response_data = json.loads(post_request.text)
+    print("============================= response_data =============================")
+    print(response_data)
     access_token = response_data["access_token"]
+    print("access_token: ")
+    print(access_token)
 
     # use the access token to access Spotify API
     auth_header = {"Authorization": "Bearer {}".format(access_token)}
+    print(auth_header)
     return auth_header
 
 # ---------------- 2. ARTISTS ------------------------
@@ -118,8 +126,10 @@ GET_ARTIST_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'artists')  # /<id>
 
 # https://developer.spotify.com/web-api/get-artist/
 def get_artist(artist_id):
+    print("get_artist")
+    print(get_artist)
     url = "{}/{id}".format(GET_ARTIST_ENDPOINT, id=artist_id)
-    resp = requests.get(url)
+    resp = requests.get(url, headers=AUTH_HEADER)
     return resp.json()
 
 
@@ -160,8 +170,12 @@ def search(search_type, name):
         print('invalid type')
         return None
     myparams = {'type': search_type}
+    print("myparams")
+    print(myparams)
     myparams['q'] = name
-    resp = requests.get(SEARCH_ENDPOINT, params=myparams)
+    resp = requests.get(SEARCH_ENDPOINT, params=myparams, headers={'Authorization': 'Bearer BQBv_7gi79lUh40tO8EPWViiWLr8-5EdPZ9tINE7Vc7W_sgx__WqGgRXIQa2eVpFDQBQ3QE8KNUVxpGhkWhY9dwX4lB_mxvPfEeX_Sk4DS5Whe_omX6yRvUpQz10H3UtuNTCX3jZ0hdIOnDiJTnU_ESRKAXOdS1ujKhtypp0ZtIZK37y_KdEyoENaEGHn8kjFbQ34AK_jbJOaNwgHsRI9cxKxfwXy2AdSpyJRYcS6YA846SQB_jjPsbE'})
+    print("SEARCH RESPONSE: ")
+    print(resp.json())
     return resp.json()
 
 # ------------------ 4. USER RELATED REQUETS  ---------- #
@@ -186,6 +200,12 @@ def get_users_profile(auth_header):
 
 
 # https://developer.spotify.com/web-api/get-a-list-of-current-users-playlists/
+def get_users_playlists(auth_header):
+    url = USER_PLAYLISTS_ENDPOINT
+    resp = requests.get(url, headers=auth_header)
+    return resp.json()
+
+# https://developer.spotify.com/documentation/web-api/reference/#/operations/get-playlists-tracks
 def get_users_playlists(auth_header):
     url = USER_PLAYLISTS_ENDPOINT
     resp = requests.get(url, headers=auth_header)

@@ -21,8 +21,9 @@ def auth():
 
 @app.route("/callback/")
 def callback():
-
+    print("run callback???")
     auth_token = request.args['code']
+    print(auth_token)
     auth_header = spotify.authorize(auth_token)
     session['auth_header'] = auth_header
 
@@ -41,11 +42,15 @@ def index():
 
 @app.route('/search/')
 def search():
+    print("DO THE DAMN SEARCH")
     try:
         search_type = request.args['search_type']
         name = request.args['name']
+        print(search_type)
+        print(name)
         return make_search(search_type, name)
     except:
+        print("DIDNT WORK")
         return render_template('search.html')
 
 
@@ -55,13 +60,15 @@ def search_item(search_type, name):
 
 
 def make_search(search_type, name):
-    if search_type not in ['artist', 'album', 'playlist', 'track']:
-        return render_template('index.html')
+    # if search_type not in ['artist', 'album', 'playlist', 'track']:
+    #     print("ITS NOT IN HWEW")
+    #     return render_template('index.html')
 
     data = spotify.search(search_type, name)
+    print("data from make_search")
+    print(data)
     api_url = data[search_type + 's']['href']
     items = data[search_type + 's']['items']
-
     return render_template('search.html',
                            name=name,
                            results=items,
@@ -71,24 +78,26 @@ def make_search(search_type, name):
 
 @app.route('/artist/<id>')
 def artist(id):
+    if 'auth_header' in session:
+        auth_header = session['auth_header']
     artist = spotify.get_artist(id)
-
+    print("artist response: ")
+    print(artist)
     if artist['images']:
         image_url = artist['images'][0]['url']
     else:
         image_url = 'http://bit.ly/2nXRRfX'
 
-    tracksdata = spotify.get_artist_top_tracks(id)
-    tracks = tracksdata['tracks']
+    # tracksdata = spotify.get_artist_top_tracks(id)
+    # tracks = tracksdata['tracks']
 
-    related = spotify.get_related_artists(id)
-    related = related['artists']
+    # related = spotify.get_related_artists(id)
+    # related = related['artists']
 
     return render_template('artist.html',
                            artist=artist,
-                           related_artists=related,
-                           image_url=image_url,
-                           tracks=tracks)
+                        #    related_artists=related,
+                           image_url=image_url)
 
 
 @app.route('/profile')
