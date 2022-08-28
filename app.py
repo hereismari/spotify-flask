@@ -21,7 +21,6 @@ def auth():
 
 @app.route("/callback/")
 def callback():
-    print("run callback???")
     auth_token = request.args['code']
     print(auth_token)
     auth_header = spotify.authorize(auth_token)
@@ -42,15 +41,11 @@ def index():
 
 @app.route('/search/')
 def search():
-    print("DO THE DAMN SEARCH")
     try:
         search_type = request.args['search_type']
         name = request.args['name']
-        print(search_type)
-        print(name)
         return make_search(search_type, name)
     except:
-        print("DIDNT WORK")
         return render_template('search.html')
 
 
@@ -60,9 +55,8 @@ def search_item(search_type, name):
 
 
 def make_search(search_type, name):
-    # if search_type not in ['artist', 'album', 'playlist', 'track']:
-    #     print("ITS NOT IN HWEW")
-    #     return render_template('index.html')
+    if search_type not in ['artist', 'album', 'playlist', 'track']:
+        return render_template('index.html')
 
     data = spotify.search(search_type, name)
     print("data from make_search")
