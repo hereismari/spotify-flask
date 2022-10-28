@@ -18,7 +18,7 @@
 	<div class="container">
 
 
-	  <h1> Hi {{ user.display_name }} :) </h1>
+	  <h1> {{ user.display_name }} :) </h1>
 
     <hr class="half-rule"/>
 
@@ -37,38 +37,16 @@
         </section>
       </div>
 
-      <div class="col-sm-4">
+      <div class="col-sm-8">
 
-        <h3> Your playlists: </h3>
+        <h3> Tracks: </h3>
         <hr class="half-rule"/>
 
-        {% for play in playlists %}
+        {% for track in tracks %}
           <div class='row'>
-            <a href="/playlist/{{ play.id }}">
-
-              <div class='col-sm-8'>
-                <span>{{ play.name }} </span>
+              <div class='col-sm-10'>
+                <span><b>{{ track.track.name }}</b> by {{ track.track.artists[0].name }} </span>
               </div>
-
-            </a>
-          </div>
-        {% endfor %}
-      </div>
-
-      <div class="col-sm-4">
-
-        <h3> Recently played:</h3>
-        <hr class="half-rule"/>
-
-        {% for track in recently_played %}
-          <div class='row'>
-            <a href="{{track.track.external_urls.spotify}}">
-
-              <div class='col-sm-8'>
-                <span>{{track.track.name}}</span>
-              </div>
-
-            </a>
           </div>
         {% endfor %}
       </div>

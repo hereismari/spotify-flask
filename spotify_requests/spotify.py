@@ -45,13 +45,15 @@ CLIENT_SECRET = CLIENT['secret']
 # server side parameter
 # * fell free to change it if you want to, but make sure to change in
 # your spotify dev account as well *
-CLIENT_SIDE_URL = "http://127.0.0.1"
+CLIENT_SIDE_URL = "http://localhost"
 PORT = 8081
 REDIRECT_URI = "{}:{}/callback/".format(CLIENT_SIDE_URL, PORT)
 SCOPE = "playlist-modify-public playlist-modify-private user-read-recently-played user-top-read"
 STATE = ""
 SHOW_DIALOG_bool = True
 SHOW_DIALOG_str = str(SHOW_DIALOG_bool).lower()
+
+# AUTH_HEADER={'Authorization': 'Bearer token'}
 
 # https://developer.spotify.com/web-api/authorization-guide/
 auth_query_parameters = {
@@ -84,7 +86,7 @@ AUTH_URL = "{}/?{}".format(SPOTIFY_AUTH_URL, URL_ARGS)
 
 
 def authorize(auth_token):
-
+    print(auth_token)
     code_payload = {
         "grant_type": "authorization_code",
         "code": str(auth_token),
@@ -104,6 +106,8 @@ def authorize(auth_token):
 
     # tokens are returned to the app
     response_data = json.loads(post_request.text)
+    # print("============================= response_data =============================")
+    # print(response_data)
     access_token = response_data["access_token"]
 
     # use the access token to access Spotify API
@@ -117,9 +121,9 @@ GET_ARTIST_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'artists')  # /<id>
 
 
 # https://developer.spotify.com/web-api/get-artist/
-def get_artist(artist_id):
+def get_artist(artist_id, auth_header):
     url = "{}/{id}".format(GET_ARTIST_ENDPOINT, id=artist_id)
-    resp = requests.get(url)
+    resp = requests.get(url, headers=auth_header)
     return resp.json()
 
 
@@ -155,13 +159,14 @@ SEARCH_ENDPOINT = "{}/{}".format(SPOTIFY_API_URL, 'search')
 
 
 # https://developer.spotify.com/web-api/search-item/
-def search(search_type, name):
+def search(search_type, name, auth_header):
     if search_type not in ['artist', 'track', 'album', 'playlist']:
         print('invalid type')
         return None
     myparams = {'type': search_type}
     myparams['q'] = name
-    resp = requests.get(SEARCH_ENDPOINT, params=myparams)
+    session = requests.Session()
+    resp = requests.get(SEARCH_ENDPOINT, params=myparams, headers=auth_header)
     return resp.json()
 
 # ------------------ 4. USER RELATED REQUETS  ---------- #
@@ -191,6 +196,12 @@ def get_users_playlists(auth_header):
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
+# https://developer.spotify.com/documentation/web-api/reference/#/operations/get-playlists-tracks
+def get_users_playlist_tracks(auth_header, playlist_id):
+    url = "{}/{}/{}/{}".format(SPOTIFY_API_URL, "playlists", playlist_id, "tracks")
+    resp = requests.get(url, headers=auth_header)
+    return resp.json()
+
 
 # https://developer.spotify.com/web-api/get-users-top-artists-and-tracks/
 def get_users_top(auth_header, t):
@@ -199,7 +210,7 @@ def get_users_top(auth_header, t):
         return None
     url = "{}/{type}".format(USER_TOP_ARTISTS_AND_TRACKS_ENDPOINT, type=t)
     resp = requests.get(url, headers=auth_header)
-    print(resp)
+    return resp.json()
 
 # https://developer.spotify.com/web-api/web-api-personalization-endpoints/get-recently-played/
 def get_users_recently_played(auth_header):
